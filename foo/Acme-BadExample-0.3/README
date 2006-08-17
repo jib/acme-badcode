@@ -1,0 +1,57 @@
+NAME
+    Acme::BadExample - A bad example of Perl code
+
+  DESCRIPTION
+    One of the key principles behind the PPI perl document parser is that
+    any given piece of Perl source exists in bizarre pseudo-quantum-like
+    state, in that it demonstrates both duality and indeterminism. Bear with
+    me for a second.
+
+    It can be treated both a Perl "document", and as Perl "code". When
+    treated as a document, it merely has to "look right", having the normal
+    context and syntax. This means that anything "cleaned" with Acme::Bleach
+    is not a valid Perl "document".
+
+    When treated as Perl code, there is no way to know whether it is valid
+    or not, until you look at it (i.e. until you actually execute it). In
+    fact, because every single perl installation is slightly (or
+    dramatically) different, you can never truly know that something is
+    valid perl code until after it's been fully parsed.
+
+    So any string of perl source can be a valid Perl document, valid Perl
+    code, or both (or neither). Most of the time, thank god, it's both.
+
+    Acme::BadExample is intended to serve as an example of a file that is a
+    valid Perl document, but most definately not valid perl code. In fact,
+    it should not be possible to run this on any installation of perl.
+
+SUPPORT
+    You're kidding right? I tell you what. If you can find some way to make
+    this module run, I shall happily stump up a $100 reward, payable in your
+    choice of American dollars, Australian dollars, or as a vertical metre
+    of beer (cartons). Beer must be picked up in person :)
+
+    Write a script capable of loading the file and post it to the CPAN bug
+    tracker at:
+
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Acme%3A%3ABadExample>
+
+    Because you can play all sorts of games with source filters (hell, I
+    could write a source filter rewrite script), in order for the reward to
+    be paid, the script must be accompanied by a patch to Acme::BadExample
+    capable of repelling the same exploit.
+
+AUTHOR
+    Adam Kennedy (Maintainer), <http://ali.as/>, cpan@ali.as
+
+SEE ALSO
+    PPI, PPI::Manual
+
+COPYRIGHT
+    Copyright (c) 2004 Adam Kennedy. All rights reserved. This program is
+    free software; you can redistribute it and/or modify it under the same
+    terms as Perl itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
+
