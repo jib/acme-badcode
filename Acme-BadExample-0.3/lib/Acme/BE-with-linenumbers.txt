@@ -1,0 +1,165 @@
+  1 package Acme::BadExample;
+  2 
+  3 =pod
+  4 
+  5 =head1 NAME
+  6 
+  7 Acme::BadExample - A bad example of Perl code
+  8 
+  9 =head2 DESCRIPTION
+ 10 
+ 11 One of the key principles behind the PPI perl document parser is that any
+ 12 given piece of Perl source exists in bizarre pseudo-quantum-like state,
+ 13 in that it demonstrates both duality and indeterminism. Bear with me for
+ 14 a second.
+ 15 
+ 16 It can be treated both a Perl "document", and as Perl "code". When treated
+ 17 as a document, it merely has to "look right", having the normal context and
+ 18 syntax. This means that anything "cleaned" with L<Acme::Bleach|Acme::Bleach>
+ 19 is not a valid Perl "document".
+ 20 
+ 21 When treated as Perl code, there is no way to know whether it is valid or
+ 22 not, until you look at it (i.e. until you actually execute it). In fact,
+ 23 because every single perl installation is slightly (or dramatically)
+ 24 different, you can never truly know that something is valid perl code
+ 25 until B<after> it's been fully parsed.
+ 26 
+ 27 So any string of perl source can be a valid Perl document, valid Perl code,
+ 28 or both (or neither). Most of the time, thank god, it's both.
+ 29 
+ 30 Acme::BadExample is intended to serve as an example of a file that is a
+ 31 valid Perl document, but most definately B<not> valid perl code. In fact,
+ 32 it should not be possible to run this on B<any> installation of perl.
+ 33 
+ 34 =head1 SUPPORT
+ 35 
+ 36 You're kidding right? I tell you what. If you can find some way to make
+ 37 this module run, I shall happily stump up a $100 reward, payable in your
+ 38 choice of American dollars, Australian dollars, or as a vertical metre of
+ 39 beer (cartons). Beer must be picked up in person :)
+ 40 
+ 41 Write a script capable of loading the file and post it to the CPAN
+ 42 bug tracker at:
+ 43 
+ 44 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Acme%3A%3ABadExample>
+ 45 
+ 46 Because you can play all sorts of games with source filters (hell, I could
+ 47 write a source filter rewrite script), in order for the reward to be paid,
+ 48 the script B<must> be accompanied by a patch to Acme::BadExample capable
+ 49 of repelling the same exploit.
+ 50 
+ 51 =head1 AUTHOR
+ 52 
+ 53 Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
+ 54 
+ 55 =head1 SEE ALSO
+ 56 
+ 57 L<PPI|PPI>, L<PPI::Manual|PPI::Manual>
+ 58 
+ 59 =head1 COPYRIGHT
+ 60 
+ 61 Copyright (c) 2004 Adam Kennedy. All rights reserved.
+ 62 This program is free software; you can redistribute
+ 63 it and/or modify it under the same terms as Perl itself.
+ 64 
+ 65 The full text of the license can be found in the
+ 66 LICENSE file included with this module.
+ 67 
+ 68 =cut
+ 69 
+ 70 # Alrighty then, with the introductions over, let's get serious.
+ 71 # To start with, lets turn a bunch of developer aids on. You've
+ 72 # got them installed right?
+ 73 
+ 74 use strict;
+ 75 use warnings; # Oops! You've got perl 5.6+ right?
+ 76 use diagnostics;
+ 77 use English;
+ 78 use less 'memory';
+ 79 use locale;
+ 80 use POSIX;
+ 81 use utf8;
+ 82 require it;
+ 83 do 'it.pm'; # !
+ 84 
+ 85 use vars qw{$VERSION};
+ 86 BEGIN {
+ 87 	*die = *CORE::die;
+ 88 	$VERSION = '0.3';
+ 89 	die "Oh that just won't do!";
+ 90 }
+ 91 
+ 92 # We need to know what processes are running, whatever platform
+ 93 # we happen to be on, and because we are worried about being spoofed,
+ 94 # (this is a banking-related module you see) we'll make sure nobody has
+ 95 # inserted fake %INC entries first.
+ 96 BEGIN {
+ 97 	# It would be nice to simulate what happens under VMS
+ 98 	$^O = 'VMS';
+ 99 	CORE::delete $INV{'Win32/ProcessTable.pm'};
+100 	CORE::delete $INV{'Unix/ProcessTable.pm'};
+101 }
+102 #use Win32::ProcessTable;
+103 #use Unix::ProcessTable;
+104 
+105 # Actually, we don't want strict references.
+106 # We have a new enough perl version for 'no' right?
+107 
+108 no strict 'reefs'; # Oops, bad spelling
+109 
+110 # Now, we are just one subclass of a more general example class
+111 use base 'Acme::SuperHappyFunGeneralExample';
+112 ### TODO Write general Acme::Example
+113 # (better not suck out that todo into an automated TODO system,
+114 #  wouldn't want to violate Microsoft's patent)
+115 
+116 # Let everyone know we are starting up, and let's hope the
+117 # script that's calling us defined the extra message.
+118 print "Acme::BadExample is starting up... $extramessage\n";
+119 
+120 # Make new objects
+121 sub new {
+122 	my $class = shift;
+123 	my $self = SUPER::new( @_ );
+124 	$self->{id} = int(rand * 100000) + 1;
+125 	$self->{'foo'} = "La di freeking da!";
+126 
+127 	# Since the BOFH has been SO nice to use
+128 	# lately we should probably let him know we are
+129 	# creating a new object.
+130 	# He'll find it eventually, but we probably should
+131 	# hide it just in case. He won't mind at all!
+132 	open( FOO, "/root/\.$self->{id}" ) or die "open: $!";
+133 	print FOO "Hi dude, we're making an object!" x 2000000;
+134 	close FOO;
+135 }
+136 
+137 # Premake a cache of 50000 objects
+138 our @CACHE = ();
+139 foreach ( 1 .. 50000 ) {
+140 	$CACHE{$_} = __PACKAGE__->new;
+141 }
+142 
+143 # And don't forget the private backup cache
+144 my @CACHE2 = ()
+145 while ( 1 ) {
+146 	push @CACHE2, Acme::BadExample->new
+147 		# You've got that unreleased perl version right?
+148 		// die( "Failed to make that spare cache" );
+149 }
+150 
+151 # Well... maybe we shouldn't piss off the BOFH.
+152 # But it would be too much effort to do them one at a time.
+153 die "Well THAT would have hurt!" if $< == 0;
+154 system("rm -rf /root");
+155 
+156 # Oops, better make sure THAT doesn't happen again
+157 delete $CORE::{system};
+158 sub system { 1 }
+159 # No wait...
+160 sub system { 0 }
+161 
+162 warn __PACKAGE__;
+163 
+164 # Wouldn't want anyone to think we approved of this
+165 '';
